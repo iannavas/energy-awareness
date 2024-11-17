@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragmento - Menu</title>
+  <style>
+    .sidebar {
+        width: 250px;
+        background: #4CAF50;
+        height: 100vh;
+        color: #fff;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .sidebar h2 {
+        margin-top: 0;
+    }
+    .sidebar a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        margin: 1rem 0;
+        font-size: 1.1rem;
+        padding: 0.5rem;
+        border-radius: 4px;
+    }
+    .sidebar a:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .logout-link {
+        color: #f44336;
+        padding: 0.5rem;
+        border-radius: 4px;
+        text-align: center;
+    }
+    .logout-link:hover {
+        background: rgba(244, 67, 54, 0.2);
+    }
+  </style>
+</head>
+<body>
+<div th:fragment="menu" class="sidebar">
+  <div>
+    <h2>Energy Awareness</h2>
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/consumo}">Consumo</a>
+    <a th:href="@{/configuracoes}">Configurações</a>
+  </div>
+  <a th:href="@{/logout}" class="logout-link">Sair</a>
+</div>
+</body>
+</html>

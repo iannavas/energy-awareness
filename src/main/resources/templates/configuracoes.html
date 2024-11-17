@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        background-color: #f4f4f4;
+    }
+    .sidebar {
+        width: 250px;
+        background: #4CAF50;
+        height: 100vh;
+        color: #fff;
+        padding: 1rem;
+    }
+    .sidebar h2 {
+        margin-top: 0;
+    }
+    .sidebar a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        margin: 1rem 0;
+        font-size: 1.1rem;
+    }
+    .sidebar a:hover {
+        text-decoration: underline;
+    }
+    .content {
+        flex: 1;
+        padding: 2rem;
+    }
+    .content h1 {
+        margin: 0 0 1rem 0;
+    }
+    .form-container {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        margin-bottom: 2rem;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        display: block;
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 0.3rem;
+    }
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn-primary {
+        background: #4CAF50;
+        color: #fff;
+    }
+    .btn-primary:hover {
+        background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/menu}"></div>
+
+<div class="content">
+  <h1>Configurações</h1>
+
+  <div class="form-container">
+    <h2>Preferências</h2>
+    <form th:object="${configuracoesDTO}" th:action="@{/configuracoes}" method="post">
+      <div class="form-group">
+        <label for="limite">Limite de Consumo (kWh)</label>
+        <input th:field="*{limiteConsumo}" type="number" id="limite" step="0.01" placeholder="Ex: 500">
+      </div>
+      <div class="form-group">
+        <label for="notificacoes">Notificações</label>
+        <select th:field="*{notificacoesAtivadas}" id="notificacoes" required>
+          <option th:value="true" th:text="'Ativadas'"></option>
+          <option th:value="false" th:text="'Desativadas'"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="email-notificacao">E-mail para Notificações</label>
+        <input th:field="*{emailNotificacoes}" type="email" id="email-notificacao" placeholder="seuemail@exemplo.com">
+      </div>
+      <button class="btn btn-primary" type="submit"  onclick="return alert('Configurações salvas com sucesso!');">Salvar Configurações</button>
+    </form>
+  </div>
+
+
+</div>
+</body>
+</html>

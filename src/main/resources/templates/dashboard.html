@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        background-color: #f4f4f4;
+    }
+    .sidebar {
+        width: 250px;
+        background: #4CAF50;
+        height: 100vh;
+        color: #fff;
+        padding: 1rem;
+    }
+    .sidebar h2 {
+        margin-top: 0;
+    }
+    .sidebar a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        margin: 1rem 0;
+        font-size: 1.1rem;
+    }
+    .sidebar a:hover {
+        text-decoration: underline;
+    }
+    .content {
+        flex: 1;
+        padding: 2rem;
+    }
+    .content h1 {
+        margin: 0;
+    }
+    .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/menu}"></div>
+
+<div class="content">
+  <h1>Dashboard</h1>
+
+  <div class="card">
+    <h2>Resumo do Consumo</h2>
+    <p>Total de energia consumida: <b th:text="${quantidadeConsumo}">0 kWh</b></p>
+    <p>Valor estimado: <b th:text="${valorEstimado}">R$ 0,00</b></p>
+  </div>
+
+  <div class="card">
+    <h2>Alertas</h2>
+
+    <div th:if="${limite == null}">
+      <p>Você precisa configurar um limite na aba de configurações.</p>
+    </div>
+
+    <div th:if="${limite != null}">
+      <p><b th:text="'Limite definido: ' + ${limite}">Limite definido</b></p>
+      <p th:if="${quantidadeConsumo <= limite}" style="color: #4CAF50;">Fique tranquilo! O seu consumo está dentro do limite.</p>
+      <p th:if="${quantidadeConsumo > limite}" style="color: red;">O seu consumo está excedendo o limite definido.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Recomendações de Consumo</h2>
+    <p id="recomendacao">
+      <span id="spinner" style="display: inline-block; width: 24px; height: 24px; border: 3px solid #ccc; border-top: 3px solid #4CAF50; border-radius: 50%; animation: spin 1s linear infinite;"></span>
+      <mark id="recomendacao-text" style="display: none;"></mark>
+    </p>
+  </div>
+
+</div>
+
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const spinner = document.getElementById('spinner');
+    const recomendacaoText = document.getElementById('recomendacao-text');
+    const recomendacaoContainer = document.getElementById('recomendacao');
+
+    recomendacaoText.style.display = "inline";
+
+    fetch('/dashboard/recomendacoes')
+      .then(response => response.text())
+      .then(data => {
+        spinner.style.display = "none";
+        recomendacaoText.style.display = "none";
+
+        recomendacaoContainer.innerHTML = data;
+      })
+      .catch(error => {
+        spinner.style.display = "none";
+        recomendacaoText.style.display = "inline";
+        recomendacaoText.innerText = 'Não foi possível carregar as recomendações.';
+        console.error('Erro ao carregar recomendações:', error);
+      });
+  });
+</script>
+
+
+</html>

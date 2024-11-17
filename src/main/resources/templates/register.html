@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Usuário</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(to bottom right, #4CAF50, #2196F3);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .register-container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 500px;
+    }
+    h1 {
+        font-size: 1.5rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-group label {
+        font-size: 0.9rem;
+        color: #555;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 0.3rem;
+    }
+    .register-btn {
+        background: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 0.8rem;
+        font-size: 1rem;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .register-btn:hover {
+        background: #45a049;
+    }
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #2196F3;
+        text-decoration: none;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="register-container">
+  <h1>Cadastrar Usuário</h1>
+  <form th:action="@{/usuario/cadastrar}" method="post">
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" required>
+    </div>
+    <div class="form-group">
+      <label for="sobrenome">Sobrenome</label>
+      <input type="text" id="sobrenome" name="sobrenome" required>
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" name="senha" required>
+    </div>
+    <button class="register-btn" type="submit">Cadastrar</button>
+  </form>
+  <a href="/login" th:href="@{/login}" class="back-link">Voltar ao Login</a>
+</div>
+</body>
+</html>
