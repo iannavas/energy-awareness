@@ -42,18 +42,22 @@ public class DashboardController {
 
     @GetMapping("/recomendacoes")
     @ResponseBody
-    public String carregarRecomendacao(HttpSession session) throws Exception {
-        String mensagemEmCache = (String) session.getAttribute("recomendacaoIA");
+    public String carregarRecomendacao(HttpSession session){
+        try {
+            String mensagemEmCache = (String) session.getAttribute("recomendacaoIA");
 
-        if(mensagemEmCache != null){
-            return mensagemEmCache;
+            if(mensagemEmCache != null){
+                return mensagemEmCache;
+            }
+
+            Long idUsuario = (Long) session.getAttribute("idUsuario");
+            Double quantidadeConsumo = consumoService.somarQuantidadeConsumo(idUsuario);
+
+            String recomendacao = ollamaService.gerarRecomendacao(quantidadeConsumo);
+            return recomendacao;
+        } catch (Exception e) {
+            return "Desculpe, não foi possível gerar uma recomendação neste momento. Por favor, tente novamente mais tarde.";
         }
-
-        Long idUsuario = (Long) session.getAttribute("idUsuario");
-        Double quantidadeConsumo = consumoService.somarQuantidadeConsumo(idUsuario);
-
-        String recomendacao = ollamaService.gerarRecomendacao(quantidadeConsumo);
-        return recomendacao;
     }
 
 }

@@ -18,6 +18,8 @@ public class NotificacaoService {
     public void notificar(Long idUsuario, Double quantidadeConsumo){
         Configuracoes configuracoes = usuarioRepository.findById(idUsuario).get().getConfiguracoes();
 
+        if(configuracoes.getLimiteConsumo() == null) return;
+
         if(!configuracoes.getNotificacoesAtivadas()) return;
 
         if(quantidadeConsumo > configuracoes.getLimiteConsumo()){
